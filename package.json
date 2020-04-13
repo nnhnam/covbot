@@ -1,0 +1,24 @@
+{
+  "name": "covbot",
+  "version": "1.0.0",
+  "description": "A Discord bot for tracking Coronavirus / COVID-19 data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Corona",
+    "COVID-19"
+  ],
+  "author": "GG",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "discord.js": "^12.1.1",
+    "discord.js-commando": "github:discordjs/Commando",
+    "fuzzyset.js": "0.0.91"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  }
+}
