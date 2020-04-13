@@ -69,7 +69,7 @@ module.exports = class Stats extends Command {
                         { name: 'Total Recovered', value: `${data.TotalRecovered}`, inline: true },
                         { name: 'New Confirmed', value: `${data.NewConfirmed}`, inline: true },
                         { name: 'New Deaths', value: `${data.NewDeaths}`, inline: true },
-                        { name: 'NewRecovered', value: `${data.NewRecovered}`, inline: true },
+                        { name: 'New Recovered', value: `${data.NewRecovered}`, inline: true },
                     )
                     .setFooter('Last updated : ')
                     .setTimestamp(response.data.Date);
