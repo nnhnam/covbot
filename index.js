@@ -6,7 +6,7 @@ const client = new CommandoClient({
     commandPrefix: 'cov',
     owner: '254913097754476544',
     unknownCommandResponse: false,
-    // invite: '',
+    invite: 'https://discord.gg/4sAgszu',
 });
 
 client.registry

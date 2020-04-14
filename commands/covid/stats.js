@@ -61,15 +61,13 @@ module.exports = class Stats extends Command {
                     }
                 }
                 messageEmbed
-                    .setTitle('COVID-19 stats')
-                    .setDescription(`${data.CountryCode ? ':flag_' + data.CountryCode.toLowerCase() + ':' : ':united_nations:'}  ${countryName}`)
+                    .setAuthor('COVID-19 stats')
+                    .setDescription(`${data.CountryCode ? ':flag_' + data.CountryCode.toLowerCase() + ':' : '🌐'}  ${countryName}`)
+                    .setTitle(`Active cases: ${data.TotalConfirmed - data.TotalDeaths - data.TotalRecovered}`)
                     .addFields(
-                        { name: 'Total Confirmed', value: `${data.TotalConfirmed}`, inline: true },
-                        { name: 'Total Deaths', value: `${data.TotalDeaths}`, inline: true },
-                        { name: 'Total Recovered', value: `${data.TotalRecovered}`, inline: true },
-                        { name: 'New Confirmed', value: `${data.NewConfirmed}`, inline: true },
-                        { name: 'New Deaths', value: `${data.NewDeaths}`, inline: true },
-                        { name: 'New Recovered', value: `${data.NewRecovered}`, inline: true },
+                        { name: '😷 Confirmed', value: `Total: ${data.TotalConfirmed} \n New: ${data.NewConfirmed}`, inline: true },
+                        { name: '💀 Deaths', value: `Total: ${data.TotalDeaths} \n New: ${data.NewDeaths}`, inline: true },
+                        { name: '💪 Recovered', value: `Total: ${data.TotalRecovered} \n New: ${data.NewRecovered}`, inline: true },
                     )
                     .setFooter('Last updated : ')
                     .setTimestamp(response.data.Date);
