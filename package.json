@@ -1,6 +1,6 @@
 {
   "name": "covbot",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A Discord bot for tracking Coronavirus / COVID-19 data",
   "main": "index.js",
   "scripts": {
@@ -14,8 +14,12 @@
   "license": "MIT",
   "dependencies": {
     "axios": "^0.19.2",
+    "canvas": "^2.6.1",
+    "chart.js": "^2.9.3",
+    "chartjs-node-canvas": "^3.0.6",
     "discord.js": "^12.1.1",
     "discord.js-commando": "github:discordjs/Commando",
+    "dotenv": "^8.2.0",
     "fuzzyset.js": "0.0.91"
   },
   "devDependencies": {
