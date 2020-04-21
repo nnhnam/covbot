@@ -8,12 +8,10 @@ Invite link: [CovBot#4457](https://discordapp.com/oauth2/authorize?client_id=699
 npm install
 ```
 
-Requires a config.js containing the bot token
-```js
-// config.js
-module.exports = {
-    token: 'yourtokenhere',
-};
+Requires a .env file containing the bot token
+```
+// .env
+token={your token here}
 ```
 
 ## Starting
