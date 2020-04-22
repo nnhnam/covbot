@@ -5,7 +5,6 @@ require('dotenv').config();
 const client = new CommandoClient({
     commandPrefix: 'cov',
     owner: '254913097754476544',
-    unknownCommandResponse: false,
     invite: 'https://discord.gg/4sAgszu',
 });
 
@@ -15,7 +14,9 @@ client.registry
         ['covid', 'COVID-19'],
     ])
     .registerDefaultGroups()
-    .registerDefaultCommands()
+    .registerDefaultCommands({
+        unknownCommand: false,
+    })
     .registerCommandsIn(path.join(__dirname, 'commands'));
 
 client.once('ready', () => {

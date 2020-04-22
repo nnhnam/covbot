@@ -2,7 +2,6 @@ const { Command } = require('discord.js-commando');
 const Discord = require('discord.js');
 const axios = require('axios').default;
 const FuzzySet = require('fuzzyset.js');
-const Canvas = require('canvas');
 
 const { CanvasRenderService } = require('chartjs-node-canvas');
 
@@ -82,7 +81,7 @@ module.exports = class Stats extends Command {
                     options: {
                         legend: {
                             labels: {
-                                fontColor: '#DDDDDD',
+                                fontColor: '#988e99',
                                 fontSize: 22,
                             },
                         },
