@@ -17,12 +17,15 @@
     "canvas": "^2.6.1",
     "chart.js": "^2.9.3",
     "chartjs-node-canvas": "^3.0.6",
-    "discord.js": "^12.1.1",
+    "discord.js": "^12.2.0",
     "discord.js-commando": "github:discordjs/Commando",
     "dotenv": "^8.2.0",
     "fuzzyset.js": "0.0.91"
   },
   "devDependencies": {
     "eslint": "^6.8.0"
+  },
+  "engines": {
+    "node": "13.3.0"
   }
 }
