@@ -74,7 +74,7 @@ module.exports = class Stats extends Command {
                 type: 'doughnut',
                 data: {
                     datasets: [{
-                        data: [data.total_active_cases, data.total_deaths, data.total_recovered],
+                        data: [data.total_cases - data.total_deaths - data.total_recovered, data.total_deaths, data.total_recovered],
                         backgroundColor: [
                             '#f4c63d',
                             '#d70206',
@@ -97,11 +97,11 @@ module.exports = class Stats extends Command {
             messageEmbed
                 .setAuthor('COVID-19 stats')
                 .setDescription(`${countryCode !== 'global' ? ':flag_' + countryCode.toLowerCase() + ':' : '🌐'}  ${countryName}`)
-                .setTitle(`Active: ${data.total_active_cases}`)
+                .setTitle(`Active: ${(data.total_cases - data.total_deaths - data.total_recovered).toLocaleString()}`)
                 .addFields(
-                    { name: '😷 Confirmed', value: `${data.total_cases}`, inline: true },
-                    { name: '💀 Deaths', value: `${data.total_deaths}`, inline: true },
-                    { name: '💪 Recovered', value: `${data.total_recovered}`, inline: true },
+                    { name: '😷 Confirmed', value: `${data.total_cases.toLocaleString()}`, inline: true },
+                    { name: '💀 Deaths', value: `${data.total_deaths.toLocaleString()}`, inline: true },
+                    { name: '💪 Recovered', value: `${data.total_recovered.toLocaleString()}`, inline: true },
                 )
                 .setFooter('')
                 .attachFiles([attachment])

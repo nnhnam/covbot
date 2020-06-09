@@ -25,7 +25,7 @@ module.exports = class Top extends Command {
             ],
         });
         this.compare = {
-            'active': (a, b) => (b.total_active_cases) - (a.total_active_cases),
+            'active': (a, b) => (b.total_cases - b.total_deaths - b.total_recovered) - (a.total_cases - a.total_deaths - a.total_recovered),
             'confirmed': (a, b) => (b.total_cases) - (a.total_cases),
             'deaths': (a, b) => (b.total_deaths) - (a.total_deaths),
             'recovered': (a, b) => (b.total_recovered) - (a.total_recovered),
@@ -34,7 +34,7 @@ module.exports = class Top extends Command {
 
     getValue(country, type) {
         switch (type) {
-            case 'active': return country.total_active_cases;
+            case 'active': return (country.total_cases - country.total_deaths - country.total_recovered);
             case 'confirmed': return country.total_cases;
             case 'deaths': return country.total_deaths;
             case 'recovered': return country.total_recovered;
@@ -52,7 +52,7 @@ module.exports = class Top extends Command {
             data.forEach((country, index) => {
                 fields.push({
                     name: `${index + 1}. :flag_${country.code.toLowerCase()}: ${country.title}`,
-                    value: this.getValue(country, type),
+                    value: this.getValue(country, type).toLocaleString(),
                     inline: true,
                 });
             });
