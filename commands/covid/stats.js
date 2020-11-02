@@ -34,28 +34,30 @@ module.exports = class Stats extends Command {
             let data;
             let countryName;
             let countryCode;
+            const response = await axios.get('https://api.covid19api.com/summary');
             if (country.toLowerCase() === 'global') {
                 countryCode = 'global';
                 countryName = 'Global';
             }
             else {
-                const response = await axios.get('https://api.thevirustracker.com/free-api?countryTotals=ALL');
                 const countriesList = [];
-                for (const key in response.data.countryitems[0]) {
-                    if (response.data.countryitems[0][key].title && response.data.countryitems[0][key].code) {
-                        countriesList.push(response.data.countryitems[0][key].title);
-                        countriesList.push(response.data.countryitems[0][key].code);
+                for (const countryData of response.data.Countries) {
+                    if (countryData.Country && countryData.CountryCode && countryData.Slug) {
+                        countriesList.push(countryData.Country);
+                        countriesList.push(countryData.CountryCode);
+                        countriesList.push(countryData.Slug);
                     }
                 }
                 const fset = FuzzySet(countriesList);
                 const c = fset.get(country);
                 // Check if there is any matching country
                 if (c && c.length > 0) {
-                    for (const key in response.data.countryitems[0]) {
-                        if (response.data.countryitems[0][key].title === c[0][1] || response.data.countryitems[0][key].code === c[0][1]) {
-                            countryCode = response.data.countryitems[0][key].code;
-                            countryName = response.data.countryitems[0][key].title;
-                            data = response.data.countryitems[0][key];
+                    for (const countryData of response.data.Countries) {
+                        if (countryData.Country === c[0][1] || countryData.CountryCode === c[0][1] || countryData.Slug === c[0][1]) {
+                            countryCode = countryData.CountryCode;
+                            countryName = countryData.Country;
+                            data = countryData;
+                            break;
                         }
                     }
                 }
@@ -66,15 +68,19 @@ module.exports = class Stats extends Command {
                 }
             }
             if (countryCode === 'global') {
-                const response = await axios.get('https://api.thevirustracker.com/free-api?global=stats');
-                data = response.data.results[0];
+                data = response.data.Global;
             }
             const canvasRenderService = new CanvasRenderService(500, 500);
+            const totalActive = data.TotalConfirmed - data.TotalDeaths - data.TotalRecovered;
+            const totalConfirmed = data.TotalConfirmed;
+            const totalDeaths = data.TotalDeaths;
+            const totalRecovered = data.TotalRecovered;
+
             const image = await canvasRenderService.renderToBuffer({
                 type: 'doughnut',
                 data: {
                     datasets: [{
-                        data: [data.total_cases - data.total_deaths - data.total_recovered, data.total_deaths, data.total_recovered],
+                        data: [totalActive, totalDeaths, totalRecovered],
                         backgroundColor: [
                             '#f4c63d',
                             '#d70206',
@@ -97,11 +103,11 @@ module.exports = class Stats extends Command {
             messageEmbed
                 .setAuthor('COVID-19 stats')
                 .setDescription(`${countryCode !== 'global' ? ':flag_' + countryCode.toLowerCase() + ':' : '🌐'}  ${countryName}`)
-                .setTitle(`Active: ${(data.total_cases - data.total_deaths - data.total_recovered).toLocaleString()}`)
+                .setTitle(`Active: ${(totalActive).toLocaleString()}`)
                 .addFields(
-                    { name: '😷 Confirmed', value: `${data.total_cases.toLocaleString()}`, inline: true },
-                    { name: '💀 Deaths', value: `${data.total_deaths.toLocaleString()}`, inline: true },
-                    { name: '💪 Recovered', value: `${data.total_recovered.toLocaleString()}`, inline: true },
+                    { name: '😷 Confirmed', value: `${totalConfirmed.toLocaleString()}`, inline: true },
+                    { name: '💀 Deaths', value: `${totalDeaths.toLocaleString()}`, inline: true },
+                    { name: '💪 Recovered', value: `${totalRecovered.toLocaleString()}`, inline: true },
                 )
                 .setFooter('')
                 .attachFiles([attachment])
