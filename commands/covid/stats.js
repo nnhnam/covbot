@@ -12,7 +12,7 @@ module.exports = class Stats extends Command {
             aliases: ['s'],
             group: 'covid',
             memberName: 'stats',
-            description: 'A summary of new and total cases updated daily',
+            description: 'A summary of COVID-19 stats',
             throttling: {
                 usages: 1,
                 duration: 3,
@@ -20,7 +20,7 @@ module.exports = class Stats extends Command {
             args: [
                 {
                     key: 'country',
-                    prompt: 'Specify the country to display stats. Omit for global stats.',
+                    prompt: 'Specify the country to display stats for. Omit for global stats.',
                     type: 'string',
                     default: 'global',
                 },
@@ -76,6 +76,11 @@ module.exports = class Stats extends Command {
             const totalDeaths = data.TotalDeaths;
             const totalRecovered = data.TotalRecovered;
 
+            const newActive = data.NewConfirmed - data.NewDeaths - data.NewRecovered;
+            const newConfirmed = data.NewConfirmed;
+            const newDeaths = data.NewDeaths;
+            const newRecovered = data.NewRecovered;
+
             const image = await canvasRenderService.renderToBuffer({
                 type: 'doughnut',
                 data: {
@@ -103,11 +108,11 @@ module.exports = class Stats extends Command {
             messageEmbed
                 .setAuthor('COVID-19 stats')
                 .setDescription(`${countryCode !== 'global' ? ':flag_' + countryCode.toLowerCase() + ':' : '🌐'}  ${countryName}`)
-                .setTitle(`Active: ${(totalActive).toLocaleString()}`)
+                .setTitle(`Confirmed: ${(totalConfirmed).toLocaleString()} (+${newConfirmed.toLocaleString()})`)
                 .addFields(
-                    { name: '😷 Confirmed', value: `${totalConfirmed.toLocaleString()}`, inline: true },
-                    { name: '💀 Deaths', value: `${totalDeaths.toLocaleString()}`, inline: true },
-                    { name: '💪 Recovered', value: `${totalRecovered.toLocaleString()}`, inline: true },
+                    { name: '😷 Active', value: `${totalActive.toLocaleString()} (+${newActive.toLocaleString()})`, inline: true },
+                    { name: '💀 Deaths', value: `${totalDeaths.toLocaleString()} (+${newDeaths.toLocaleString()})`, inline: true },
+                    { name: '💪 Recovered', value: `${totalRecovered.toLocaleString()} (+${newRecovered.toLocaleString()})`, inline: true },
                 )
                 .setFooter('')
                 .attachFiles([attachment])

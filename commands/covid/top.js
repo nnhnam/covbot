@@ -44,15 +44,15 @@ module.exports = class Top extends Command {
                 .setDescription('React to this message to choose the list you want')
                 .addFields(
                     [
-                        { name: '🅰', value: 'Active', inline: true },
-                        { name: '😷', value: 'Confirmed', inline: true },
+                        { name: '☑️', value: 'Confirmed', inline: true },
+                        { name: '😷', value: 'Active', inline: true },
                         { name: '💀', value: 'Deaths', inline: true },
                         { name: '💪', value: 'Recovered', inline: true },
                     ]);
             const m = await message.channel.send(messageEmbed);
-            m.react('🅰').then(() => m.react('😷')).then(() => m.react('💀')).then(() => m.react('💪'));
+            m.react('☑️').then(() => m.react('😷')).then(() => m.react('💀')).then(() => m.react('💪'));
             const filter = (reaction, user) => {
-                return (reaction.emoji.name === '🅰' || reaction.emoji.name === '😷' || reaction.emoji.name === '💀' || reaction.emoji.name === '💪') && user.id === message.author.id;
+                return (reaction.emoji.name === '☑️' || reaction.emoji.name === '😷' || reaction.emoji.name === '💀' || reaction.emoji.name === '💪') && user.id === message.author.id;
             };
             const collector = m.createReactionCollector(filter, { time: 20000 });
             collector.on('end', (collected, reason) => {
@@ -60,11 +60,11 @@ module.exports = class Top extends Command {
             });
             collector.on('collect', async (reaction, reactionCollector) => {
                 try {
-                    if (reaction.emoji.name === '🅰') {
-                        type = 'active';
+                    if (reaction.emoji.name === '☑️') {
+                        type = 'confirmed';
                     }
                     else if (reaction.emoji.name === '😷') {
-                        type = 'confirmed';
+                        type = 'active';
                     }
                     else if (reaction.emoji.name === '💀') {
                         type = 'deaths';
@@ -138,7 +138,7 @@ module.exports = class Top extends Command {
                     messageEmbed = new Discord.MessageEmbed().setColor('#DC143C');
                     const attachment = new Discord.MessageAttachment(image, 'top.png');
                     messageEmbed
-                        .setAuthor('COVID-19')
+                        .setAuthor('COVID-19 top')
                         .setTitle(`📊 Top 9 countries (${type.toLowerCase()})`)
                         .addFields(fields)
                         .setFooter('Last updated : ')

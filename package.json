@@ -1,6 +1,6 @@
 {
   "name": "covbot",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "A Discord bot for tracking Coronavirus / COVID-19 data",
   "main": "index.js",
   "scripts": {
